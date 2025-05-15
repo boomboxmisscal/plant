@@ -1,0 +1,29 @@
+local a = game:GetService("ReplicatedStorage")
+local b = game:GetService("Players")
+local c = a:WaitForChild("PlantSeed")
+local d = a:WaitForChild("PlantSegment")
+local e = {}
+
+local function f(g)
+	if not e[g] then
+		e[g] = {
+			h = {},
+			i = Vector3.new(math.random(-50, 50), 5, math.random(-50, 50))
+		}
+	end
+	return e[g]
+end
+
+c.OnServerEvent:Connect(function(j)
+	local k = f(j)
+	local l = #k.h
+	local m = d:Clone()
+	local n = k.i + Vector3.new(0, l * m.Size.Y, 0)
+	m.CFrame = CFrame.new(n)
+	m.Parent = workspace
+	table.insert(k.h, m)
+end)
+
+b.PlayerRemoving:Connect(function(o)
+	e[o] = nil
+end)
