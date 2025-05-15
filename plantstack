@@ -1,29 +1,57 @@
-local a = game:GetService("ReplicatedStorage")
-local b = game:GetService("Players")
-local c = a:WaitForChild("PlantSeed")
-local d = a:WaitForChild("PlantSegment")
-local e = {}
-
-local function f(g)
-	if not e[g] then
-		e[g] = {
-			h = {},
-			i = Vector3.new(math.random(-50, 50), 5, math.random(-50, 50))
-		}
-	end
-	return e[g]
-end
-
-c.OnServerEvent:Connect(function(j)
-	local k = f(j)
-	local l = #k.h
-	local m = d:Clone()
-	local n = k.i + Vector3.new(0, l * m.Size.Y, 0)
-	m.CFrame = CFrame.new(n)
-	m.Parent = workspace
-	table.insert(k.h, m)
+local a=game:GetService("\80\108\97\121\101\114\115")
+local b=a.LocalPlayer
+local c="\67\97\114\114\111\116"
+local d=false
+local e=Instance.new("\83\99\114\101\101\110\71\117\105",b:WaitForChild("\80\108\97\121\101\114\71\117\105"))
+e.Name="G"
+local f=Instance.new("\70\114\97\109\101",e)
+f.Position=UDim2.new(0.05,0,0.3,0)
+f.Size=UDim2.new(0,200,0,250)
+f.BackgroundColor3=Color3.fromRGB(50,50,50)
+f.BorderSizePixel=0
+local g=Instance.new("\84\101\120\116\76\97\98\101\108",f)
+g.Size=UDim2.new(1,0,0,40)
+g.Text="\240\159\140\177 Stack & Plant"
+g.TextColor3=Color3.new(1,1,1)
+g.BackgroundTransparency=1
+g.Font=Enum.Font.SourceSansBold
+g.TextScaled=true
+local h=Instance.new("\84\101\120\116\66\117\116\116\111\110",f)
+h.Size=UDim2.new(0.8,0,0,40)
+h.Position=UDim2.new(0.1,0,0.2,0)
+h.Text="Activate"
+h.BackgroundColor3=Color3.fromRGB(0,170,0)
+h.TextColor3=Color3.new(1,1,1)
+h.Font=Enum.Font.SourceSansBold
+h.TextScaled=true
+local i={"Carrot","Tomato","Lettuce"}
+local j={}
+for k,l in ipairs(i)do local m=Instance.new("\84\101\120\116\66\117\116\116\111\110",f)
+m.Size=UDim2.new(0.8,0,0,30)
+m.Position=UDim2.new(0.1,0,0.35+(k*0.12),0)
+m.Text=l
+m.BackgroundColor3=Color3.fromRGB(100,100,100)
+m.TextColor3=Color3.new(1,1,1)
+m.Font=Enum.Font.SourceSans
+m.TextScaled=true
+m.MouseButton1Click:Connect(function()
+c=l
+for _,n in ipairs(j)do n.BackgroundColor3=Color3.fromRGB(100,100,100)end
+m.BackgroundColor3=Color3.fromRGB(0,170,255)
 end)
-
-b.PlayerRemoving:Connect(function(o)
-	e[o] = nil
+table.insert(j,m)
+end
+h.MouseButton1Click:Connect(function()
+d=not d
+h.Text=d and "ON"or"Activate"
+h.BackgroundColor3=d and Color3.fromRGB(0,100,200)or Color3.fromRGB(0,170,0)
+if d then spawn(function()
+while d do print("\240\159\140\177:",c)
+pcall(function()
+-- Example: game.ReplicatedStorage.PlantSeed:FireServer(c)
+end)
+wait(0.5)
+end
+end)
+end
 end)
